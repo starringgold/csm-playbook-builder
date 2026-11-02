@@ -453,14 +453,9 @@ html, body {
   border-radius: var(--radius);
   padding: 28px 32px;
   box-shadow: var(--shadow);
-  max-width: 780px;
   width: 100%;
 }
 
-/* In two-panel layout, form fills its column */
-.main-panels.has-playbook .form-section {
-  max-width: none;
-}
 
 .form-header {
   margin-bottom: 24px;
