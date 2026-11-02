@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSM Playbook Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-brand">
+      <span class="header-logo">📋</span>
+      <div>
+        <div class="header-title">CSM Playbook Builder</div>
+        <div class="header-sub">AI playbooks built on your winning plays</div>
+      </div>
+    </div>
+    <div class="header-key">
+      <div class="key-wrapper">
+        <span class="key-label">Claude API Key</span>
+        <input type="password" id="apiKey" placeholder="sk-ant-..." class="key-input" autocomplete="off" />
+        <button id="saveKey" class="btn-save">Save</button>
+      </div>
+      <span class="key-hint">Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a></span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <h2 class="sidebar-heading">🏆 My Winning Plays</h2>
+        <p class="sidebar-desc">Your proven tactics. These get woven into every playbook you generate.</p>
+      </div>
+      <div class="plays-list" id="playsList"></div>
+      <div class="add-play">
+        <h3 class="add-play-heading">+ Add a Play</h3>
+        <input type="text" id="playSituation" placeholder="Situation (e.g. Low adoption after 60 days)" class="sidebar-input" />
+        <textarea id="playAction" placeholder="What you did..." class="sidebar-textarea" rows="2"></textarea>
+        <input type="text" id="playOutcome" placeholder="Outcome (e.g. Adoption up 40% in 30 days)" class="sidebar-input" />
+        <button id="addPlayBtn" class="btn-add-play">Add Play</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="form-section" id="formSection">
+        <div class="form-header">
+          <h2 class="form-title">Build Your Playbook</h2>
+          <p class="form-desc">Fill in the customer context and hit Generate. Your winning plays on the left will be woven in automatically.</p>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Customer Segment <span class="required">*</span></label>
+            <select id="segment" class="form-select">
+              <option value="">Select segment...</option>
+              <option value="Enterprise (1,000+ employees)">Enterprise (1,000+ employees)</option>
+              <option value="Mid-Market (100-999 employees)">Mid-Market (100-999 employees)</option>
+              <option value="SMB (under 100 employees)">SMB (under 100 employees)</option>
+              <option value="Startup (seed to Series B)">Startup (seed to Series B)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Product / Platform <span class="required">*</span></label>
+            <input type="text" id="product" placeholder="e.g. Chili Piper, HubSpot, Salesforce..." class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Industry <span class="required">*</span></label>
+            <input type="text" id="industry" placeholder="e.g. SaaS, Fintech, Healthcare..." class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company Size</label>
+            <input type="text" id="companySize" placeholder="e.g. 250 employees, 50 seats..." class="form-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Primary Goals <span class="required">*</span></label>
+          <textarea id="goals" placeholder="What does success look like for this customer? Be specific. e.g. Increase pipeline velocity by 20%, get all AEs booking meetings through the tool daily..." class="form-textarea" rows="4"></textarea>
+        </div>
+        <div class="form-footer">
+          <div id="playsCount" class="plays-count"></div>
+          <button id="generateBtn" class="btn-generate">
+            <span id="generateBtnText">✨ Generate Playbook</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="playbook-section" id="playbookSection" style="display:none;">
+        <div class="playbook-toolbar">
+          <div class="playbook-meta" id="playbookMeta"></div>
+          <div class="playbook-actions">
+            <button id="copyBtn" class="btn-action">📋 Copy</button>
+            <button id="newBtn" class="btn-action btn-action-outline">← New Playbook</button>
+          </div>
+        </div>
+        <div class="playbook-content" id="playbookContent"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toastContainer"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

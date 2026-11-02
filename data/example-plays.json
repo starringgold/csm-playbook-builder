@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "situation": "Customer had low feature adoption 60 days after onboarding",
+    "play": "Skipped the admin and ran a 'feature spotlight' session directly with power users using their own data to show real before/after impact",
+    "outcome": "Adoption jumped from 8% to 64% in 30 days"
+  },
+  {
+    "id": "2",
+    "situation": "Champion left the company mid-contract with no handoff",
+    "play": "Identified the internal 'shadow champion' who had been quietly involved in implementation but wasn't the official sponsor. Ran an executive re-intro session within 48 hours.",
+    "outcome": "Maintained renewal and expanded ARR by 15% at renewal"
+  },
+  {
+    "id": "3",
+    "situation": "Customer gave a low NPS score (5/10) at QBR with no explanation",
+    "play": "Paused the QBR agenda entirely, asked the stakeholder to walk through their top 3 frustrations live, and built a 30-day action plan on the spot with owners and dates",
+    "outcome": "NPS improved to 8/10 at next QBR and customer agreed to be a reference"
+  }
+]
