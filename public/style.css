@@ -35,7 +35,7 @@
   --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
 
   --font: 'Inter', system-ui, -apple-system, sans-serif;
-  --sidebar-width: 300px;
+  --sidebar-width: 360px;
   --header-height: 64px;
 }
 
@@ -224,7 +224,7 @@ html, body {
 
 .plays-list {
   flex: 1;
-  padding: 12px 16px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -242,10 +242,10 @@ html, body {
   background: var(--sidebar-surface);
   border: 1px solid var(--sidebar-border);
   border-radius: var(--radius-sm);
-  padding: 12px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
 }
 
 .play-card-header {
@@ -281,13 +281,13 @@ html, body {
 }
 
 .play-action {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--sidebar-muted);
   line-height: 1.5;
 }
 
 .play-outcome {
-  font-size: 11px;
+  font-size: 12px;
   color: #34d399;
   line-height: 1.4;
 }
@@ -370,13 +370,81 @@ html, body {
 }
 
 /* ============================================================
+   Intro banner
+   ============================================================ */
+
+.intro-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.intro-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.intro-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.intro-text strong {
+  color: var(--text);
+}
+
+.intro-dismiss {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+  margin-top: -1px;
+}
+
+.intro-dismiss:hover {
+  color: var(--text);
+}
+
+/* ============================================================
    Main content
    ============================================================ */
 
 .main {
   flex: 1;
-  padding: 32px;
-  max-width: 860px;
+  padding: 28px 32px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Panel grid: single column by default */
+.main-panels {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Two-panel side-by-side when playbook is generated (wide screens only) */
+@media (min-width: 1100px) {
+  .main-panels.has-playbook {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 /* Form section */
@@ -385,6 +453,13 @@ html, body {
   border-radius: var(--radius);
   padding: 28px 32px;
   box-shadow: var(--shadow);
+  max-width: 780px;
+  width: 100%;
+}
+
+/* In two-panel layout, form fills its column */
+.main-panels.has-playbook .form-section {
+  max-width: none;
 }
 
 .form-header {
@@ -459,6 +534,7 @@ html, body {
   outline: none;
   line-height: 1.6;
   transition: border-color 0.15s, background 0.15s;
+  width: 100%;
 }
 
 .form-textarea:focus {
@@ -518,6 +594,39 @@ html, body {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Empty state */
+.playbook-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 32px;
+  text-align: center;
+  flex: 1;
+}
+
+.playbook-empty-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  opacity: 0.35;
+}
+
+.playbook-empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.playbook-empty-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 260px;
 }
 
 .playbook-toolbar {

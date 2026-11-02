@@ -11,6 +11,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('copyBtn').addEventListener('click', copyPlaybook);
   document.getElementById('newBtn').addEventListener('click', showForm);
   document.getElementById('apiKey').addEventListener('keydown', e => { if (e.key === 'Enter') saveApiKey(); });
+
+  // Intro banner: hide if previously dismissed
+  try {
+    if (localStorage.getItem('csm_intro_dismissed')) {
+      const banner = document.getElementById('introBanner');
+      if (banner) banner.style.display = 'none';
+    }
+  } catch(e) {}
+  const dismissBtn = document.getElementById('introDismiss');
+  if (dismissBtn) {
+    dismissBtn.addEventListener('click', () => {
+      const banner = document.getElementById('introBanner');
+      if (banner) banner.style.display = 'none';
+      try { localStorage.setItem('csm_intro_dismissed', '1'); } catch(e) {}
+    });
+  }
 });
 
 function loadApiKey() {
@@ -92,22 +108,44 @@ async function generatePlaybook() {
 }
 
 function showPlaybook(markdown, meta) {
-  document.getElementById('formSection').style.display = 'none';
+  // Show playbook section alongside the form (two-panel layout on wide screens)
   const section = document.getElementById('playbookSection');
-  section.style.display = 'block';
+  section.style.display = 'flex';
+
+  // Switch panels to two-column grid
+  document.getElementById('mainPanels').classList.add('has-playbook');
+
+  // Hide empty state, show toolbar and content
+  document.getElementById('playbookEmpty').style.display = 'none';
+  document.getElementById('playbookToolbar').style.display = 'flex';
+
   const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   document.getElementById('playbookMeta').innerHTML = [meta.segment, meta.product, meta.industry, date]
     .map(t => `<span class="meta-tag">${escapeHtml(t)}</span>`).join('');
   const contentEl = document.getElementById('playbookContent');
   contentEl.innerHTML = marked.parse(markdown);
   contentEl.dataset.raw = markdown;
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Scroll playbook into view on narrow screens; on wide screens it's already visible
+  if (window.innerWidth < 1100) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
+
 function showForm() {
+  // Reset playbook section back to empty state
+  document.getElementById('mainPanels').classList.remove('has-playbook');
   document.getElementById('playbookSection').style.display = 'none';
-  document.getElementById('formSection').style.display = 'block';
+  document.getElementById('playbookEmpty').style.display = 'flex';
+  document.getElementById('playbookToolbar').style.display = 'none';
+  document.getElementById('playbookContent').innerHTML = '';
+  delete document.getElementById('playbookContent').dataset.raw;
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 function copyPlaybook() {
   const raw = document.getElementById('playbookContent').dataset.raw;
   if (!raw) return;

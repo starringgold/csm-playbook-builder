@@ -44,57 +44,72 @@
     </aside>
 
     <main class="main">
-      <section class="form-section" id="formSection">
-        <div class="form-header">
-          <h2 class="form-title">Build Your Playbook</h2>
-          <p class="form-desc">Fill in the customer context and hit Generate. Your winning plays on the left will be woven in automatically.</p>
+      <div class="intro-banner" id="introBanner">
+        <span class="intro-icon">✨</span>
+        <div class="intro-text">
+          <strong>What this does:</strong> Describe a customer — their segment, product, and goals — and get a full structured success playbook in seconds. Add your own winning plays in the sidebar and they get woven into every playbook automatically, so every plan reflects what actually works for you.
         </div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Customer Segment <span class="required">*</span></label>
-            <select id="segment" class="form-select">
-              <option value="">Select segment...</option>
-              <option value="Enterprise (1,000+ employees)">Enterprise (1,000+ employees)</option>
-              <option value="Mid-Market (100-999 employees)">Mid-Market (100-999 employees)</option>
-              <option value="SMB (under 100 employees)">SMB (under 100 employees)</option>
-              <option value="Startup (seed to Series B)">Startup (seed to Series B)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Product / Platform <span class="required">*</span></label>
-            <input type="text" id="product" placeholder="e.g. Chili Piper, HubSpot, Salesforce..." class="form-input" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Industry <span class="required">*</span></label>
-            <input type="text" id="industry" placeholder="e.g. SaaS, Fintech, Healthcare..." class="form-input" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Company Size</label>
-            <input type="text" id="companySize" placeholder="e.g. 250 employees, 50 seats..." class="form-input" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Primary Goals <span class="required">*</span></label>
-          <textarea id="goals" placeholder="What does success look like for this customer? Be specific. e.g. Increase pipeline velocity by 20%, get all AEs booking meetings through the tool daily..." class="form-textarea" rows="4"></textarea>
-        </div>
-        <div class="form-footer">
-          <div id="playsCount" class="plays-count"></div>
-          <button id="generateBtn" class="btn-generate">
-            <span id="generateBtnText">✨ Generate Playbook</span>
-          </button>
-        </div>
-      </section>
+        <button class="intro-dismiss" id="introDismiss" aria-label="Dismiss">×</button>
+      </div>
 
-      <section class="playbook-section" id="playbookSection" style="display:none;">
-        <div class="playbook-toolbar">
-          <div class="playbook-meta" id="playbookMeta"></div>
-          <div class="playbook-actions">
-            <button id="copyBtn" class="btn-action">📋 Copy</button>
-            <button id="newBtn" class="btn-action btn-action-outline">← New Playbook</button>
+      <div class="main-panels" id="mainPanels">
+        <section class="form-section" id="formSection">
+          <div class="form-header">
+            <h2 class="form-title">Build Your Playbook</h2>
+            <p class="form-desc">Fill in the customer context and hit Generate. Your winning plays on the left will be woven in automatically.</p>
           </div>
-        </div>
-        <div class="playbook-content" id="playbookContent"></div>
-      </section>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Customer Segment <span class="required">*</span></label>
+              <select id="segment" class="form-select">
+                <option value="">Select segment...</option>
+                <option value="Enterprise (1,000+ employees)">Enterprise (1,000+ employees)</option>
+                <option value="Mid-Market (100-999 employees)">Mid-Market (100-999 employees)</option>
+                <option value="SMB (under 100 employees)">SMB (under 100 employees)</option>
+                <option value="Startup (seed to Series B)">Startup (seed to Series B)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Product / Platform <span class="required">*</span></label>
+              <input type="text" id="product" placeholder="e.g. Chili Piper, HubSpot, Salesforce..." class="form-input" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Industry <span class="required">*</span></label>
+              <input type="text" id="industry" placeholder="e.g. SaaS, Fintech, Healthcare..." class="form-input" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company Size</label>
+              <input type="text" id="companySize" placeholder="e.g. 250 employees, 50 seats..." class="form-input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Primary Goals <span class="required">*</span></label>
+            <textarea id="goals" placeholder="What does success look like for this customer? Be specific. e.g. Increase pipeline velocity by 20%, get all AEs booking meetings through the tool daily..." class="form-textarea" rows="4"></textarea>
+          </div>
+          <div class="form-footer">
+            <div id="playsCount" class="plays-count"></div>
+            <button id="generateBtn" class="btn-generate">
+              <span id="generateBtnText">✨ Generate Playbook</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="playbook-section" id="playbookSection" style="display:none">
+          <div class="playbook-empty" id="playbookEmpty">
+            <div class="playbook-empty-icon">📄</div>
+            <div class="playbook-empty-title">Your playbook will appear here</div>
+            <p class="playbook-empty-desc">Fill in the customer context and click Generate.</p>
+          </div>
+          <div class="playbook-toolbar" id="playbookToolbar" style="display:none">
+            <div class="playbook-meta" id="playbookMeta"></div>
+            <div class="playbook-actions">
+              <button id="copyBtn" class="btn-action">📋 Copy</button>
+              <button id="newBtn" class="btn-action btn-action-outline">← New Playbook</button>
+            </div>
+          </div>
+          <div class="playbook-content" id="playbookContent"></div>
+        </section>
+      </div>
     </main>
   </div>
 
