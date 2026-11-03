@@ -7,6 +7,15 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/data', express.static(path.join(__dirname, 'data')));
 
+app.post('/api/verify-access', (req, res) => {
+  const { code } = req.body;
+  const ACCESS_CODE = process.env.ACCESS_CODE;
+  // No env var set = open access (local dev)
+  if (!ACCESS_CODE) return res.json({ valid: true });
+  if (code && code.trim() === ACCESS_CODE.trim()) return res.json({ valid: true });
+  return res.json({ valid: false });
+});
+
 app.post('/api/generate', async (req, res) => {
   const { apiKey, segment, product, industry, companySize, goals, plays } = req.body;
 

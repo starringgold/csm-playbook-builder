@@ -7,8 +7,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script>try{if(localStorage.getItem('csm_access_granted')==='true')document.documentElement.setAttribute('data-access','granted');}catch(e){}</script>
 </head>
 <body>
+
+  <!-- Access Gate -->
+  <div id="accessGate" class="access-gate">
+    <div class="access-gate-card">
+      <div class="access-gate-logo">📋</div>
+      <h1 class="access-gate-title">CSM Playbook Builder</h1>
+      <p class="access-gate-sub">This tool is invite-only.<br>Enter your access code to continue.</p>
+      <div class="access-gate-form">
+        <input type="text" id="accessCodeInput" class="access-gate-input" placeholder="Access code" autocomplete="off" />
+        <button id="accessCodeBtn" class="access-gate-btn">Unlock →</button>
+      </div>
+      <p id="accessCodeError" class="access-gate-error" style="display:none">
+        Invalid code. DM Star on LinkedIn to request access.
+      </p>
+      <p class="access-gate-footer">
+        Want access? <a href="https://www.linkedin.com/in/starringgold" target="_blank" rel="noopener">Message Star on LinkedIn ↗</a>
+      </p>
+    </div>
+  </div>
+
   <header class="header">
     <div class="header-brand">
       <span class="header-logo">📋</span>
@@ -116,5 +137,61 @@
   <div id="toastContainer"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
   <script src="app.js"></script>
+
+  <script>
+    (function () {
+      var STORAGE_KEY = 'csm_access_granted';
+
+      function grantAccess() {
+        try { localStorage.setItem(STORAGE_KEY, 'true'); } catch(e) {}
+        var gate = document.getElementById('accessGate');
+        if (!gate) return;
+        gate.classList.add('hiding');
+        setTimeout(function() { gate.remove(); }, 380);
+      }
+
+      var btn   = document.getElementById('accessCodeBtn');
+      var input = document.getElementById('accessCodeInput');
+      var err   = document.getElementById('accessCodeError');
+
+      if (!btn) return; // already removed by CSS (data-access=granted)
+
+      function tryUnlock() {
+        var code = input.value.trim();
+        if (!code) { input.focus(); return; }
+        btn.disabled = true;
+        btn.textContent = 'Checking...';
+        err.style.display = 'none';
+
+        fetch('/api/verify-access', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: code })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.valid) {
+            grantAccess();
+          } else {
+            err.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Unlock →';
+            input.select();
+          }
+        })
+        .catch(function() {
+          err.textContent = 'Connection error — please try again.';
+          err.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Unlock →';
+        });
+      }
+
+      btn.addEventListener('click', tryUnlock);
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') tryUnlock();
+      });
+    })();
+  </script>
 </body>
 </html>
